@@ -15,10 +15,10 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _emailController,_passwordController,_nameController,_phoneController;
   GlobalKey<ScaffoldState> _key = GlobalKey();
   bool isLoading = false ;
-  String _nameError=null,
-        _phoneError=null,
-        _emailError=null,
-        _passwordError=null;
+  String _nameError,
+        _phoneError,
+        _emailError,
+        _passwordError;
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -121,8 +121,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         ?CircularProgressIndicator()
                         :MaterialButton(
                         color: Theme.of(context).primaryColor,
-                        child: Text('Login'),
+                        child: Text('Signup'),
                         onPressed: (){
+                          setState(() {
+                            _nameError = null;
+                            _phoneError = null ;
+                            _emailError = null ;
+                            _passwordError = null;
+                          });
                           String name = _nameController.text;
                           String phone = _phoneController.text;
                           String email = _emailController.text;
@@ -131,12 +137,45 @@ class _SignUpPageState extends State<SignUpPage> {
                             setState(() {
                               _nameError = 'Name is Empty';
                             });
-                          }else if(email.isEmpty){
-                          
+                          }else if(phone.isEmpty){
+                            setState(() {
+                              _phoneError = 'Phone is Empty';
+                            });
+                          } else if(email.isEmpty){
+                            setState(() {
+                              _emailError = 'Email is Empty';
+                            });
                           }else if(password.isEmpty){
-                          
+                            setState(() {
+                              _passwordError = 'Password is Empty';
+                            });
                           }else{
-                          
+                            setState(() {
+                              isLoading = true ;
+                            });
+                            http.get('https://flutter.smarttersstudio.com/test/signup.php?email=$email&password=$password&gender=1&name=$name&phone=$phone')
+                              .then((response){
+                              setState(() {
+                                isLoading = false ;
+                              });
+                                var jsonResponse = json.decode(response.body);
+                                if(jsonResponse['result']){
+                                  _key.currentState.showSnackBar(
+                                    SnackBar(
+                                      content: Text('Registered Successfully'),
+                                      backgroundColor: Colors.green,
+                                    )
+                                  );
+                                }else{
+                                  _key.currentState.showSnackBar(
+                                    SnackBar(
+                                      content: Text(jsonResponse['reason']),
+                                      backgroundColor: Colors.red,
+                                    )
+                                  );
+                                  
+                                }
+                            });
                           }
                         }),
                       FlatButton(onPressed: (){

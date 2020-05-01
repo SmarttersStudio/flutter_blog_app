@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:blogapp/dashboard_page.dart';
 import 'package:blogapp/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -124,10 +125,9 @@ class _LoginPageState extends State<LoginPage> {
                                     bool isSuccess = jsonResult ['result'];
                                     if(isSuccess){
                                       String id = jsonResult['id'];
-                                      _key.currentState.showSnackBar(
-                                        SnackBar(
-                                          content:Text('Login Successful & id is $id') ,
-                                          backgroundColor: Colors.green,
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => DashboardPage()
                                         )
                                       );
                                     }else{
