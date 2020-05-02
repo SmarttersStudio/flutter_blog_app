@@ -4,6 +4,7 @@ import 'package:blogapp/dashboard_page.dart';
 import 'package:blogapp/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
     LoginPage({Key key}) : super(key: key);
@@ -114,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                                     isLoading = true;
                                   });
                                   http.get('https://flutter.smarttersstudio.com/test/login.php?user=$email&pass=$password')
-                                  .then((response){
+                                  .then((response) async {
                                     setState(() {
                                       isLoading = false;
                                     });
@@ -125,7 +126,9 @@ class _LoginPageState extends State<LoginPage> {
                                     bool isSuccess = jsonResult ['result'];
                                     if(isSuccess){
                                       String id = jsonResult['id'];
-                                      Navigator.of(context).push(
+                                      SharedPreferences s = await SharedPreferences.getInstance();
+                                      await s.setString("user", id);
+                                      Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (context) => DashboardPage()
                                         )

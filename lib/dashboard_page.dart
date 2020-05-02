@@ -1,6 +1,9 @@
 import 'package:blogapp/PostData.dart';
+import 'package:blogapp/login_page.dart';
+import 'package:blogapp/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 class DashboardPage extends StatefulWidget {
     @override
     _DashboardPageState createState() => _DashboardPageState();
@@ -14,10 +17,12 @@ class _DashboardPageState extends State<DashboardPage> {
             title: Text('Blog App'),
             actions: <Widget>[
               IconButton(icon: Icon(Icons.person), onPressed: (){
-              
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
               }),
-              IconButton(icon: Icon(Icons.power_settings_new), onPressed: (){
-    
+              IconButton(icon: Icon(Icons.power_settings_new), onPressed: () async{
+                SharedPreferences preferences = await SharedPreferences.getInstance();
+                await preferences.clear();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
               })
             ],
           ),
@@ -55,7 +60,9 @@ class _DashboardPageState extends State<DashboardPage> {
     }
 
   Future<List<PostData>> getAllPosts() async {
-      var response= await http.get('https://flutter.smarttersstudio.com/test/getAllPosts.php?id=116');
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String userId = preferences.getString("user");
+      var response= await http.get('https://flutter.smarttersstudio.com/test/getAllPosts.php?id=$userId');
       List<PostData> data = postDataFromJson(response.body);
       return data;
   }
