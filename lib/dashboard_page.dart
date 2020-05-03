@@ -1,4 +1,5 @@
 import 'package:blogapp/PostData.dart';
+import 'package:blogapp/add_post_page.dart';
 import 'package:blogapp/login_page.dart';
 import 'package:blogapp/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
           }),
           floatingActionButton: FloatingActionButton(
             onPressed: (){
-            
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPostPage()));
           },child: Icon(Icons.add),),
         );
     }

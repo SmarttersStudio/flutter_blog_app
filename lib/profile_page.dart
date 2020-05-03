@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:blogapp/my_post_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
-    
     @override
     _ProfilePageState createState() => _ProfilePageState();
 }
@@ -91,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             RaisedButton(onPressed: (){
-          
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyPostPage()));
             },child: Text('View My Posts'),)
           ],
         ),
