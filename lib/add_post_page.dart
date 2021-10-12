@@ -10,8 +10,8 @@ class AddPostPage extends StatefulWidget {
 }
 
 class _AddPostPageState extends State<AddPostPage> {
-    String _titleError,_bodyError;
-    TextEditingController _titleController , _bodyController ;
+     String? _titleError,_bodyError;
+    late TextEditingController _titleController , _bodyController ;
     bool _isLoading = false ;
     
     @override
@@ -86,8 +86,8 @@ class _AddPostPageState extends State<AddPostPage> {
                       _isLoading = true;
                     });
                     SharedPreferences preferences = await SharedPreferences.getInstance();
-                    String id = preferences.getString("user");
-                    http.get('https://flutter.smarttersstudio.com/test/addPost.php?id=$id&title=$title&body=$body')
+                    String? id = preferences.getString("user");
+                    http.get(Uri.parse('https://flutter.smarttersstudio.com/test/addPost.php?id=$id&title=$title&body=$body'))
                     .then((response){
                       Navigator.pop(context);
                     });

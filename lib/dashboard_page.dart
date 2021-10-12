@@ -37,12 +37,12 @@ class _DashboardPageState extends State<DashboardPage> {
                     return Card(
                       child: ListTile(
                         leading: CircleAvatar(),
-                        title: Text(snapshot.data[position].name),
-                        subtitle: Text(snapshot.data[position].description),
+                        title: Text(snapshot.data![position].name!),
+                        subtitle: Text(snapshot.data![position].description!),
                         trailing: Icon(Icons.favorite,color: Colors.red,),
                       ),
                     );
-                } ,itemCount: snapshot.data.length,);
+                } ,itemCount: snapshot.data!.length,);
                 
                 
               }else{
@@ -62,8 +62,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Future<List<PostData>> getAllPosts() async {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String userId = preferences.getString("user");
-      var response= await http.get('https://flutter.smarttersstudio.com/test/getAllPosts.php?id=$userId');
+      String? userId = preferences.getString("user");
+      var response= await http.get(Uri.parse('https://flutter.smarttersstudio.com/test/getAllPosts.php?id=$userId'));
       List<PostData> data = postDataFromJson(response.body);
       return data;
   }

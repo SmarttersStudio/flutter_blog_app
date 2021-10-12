@@ -5,11 +5,11 @@ List<PostData> postDataFromJson(String str) => List<PostData>.from(json.decode(s
 String postDataToJson(List<PostData> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class PostData {
-  String name;
-  String id;
-  String title;
-  String description;
-  String timestamp;
+  String? name;
+  String? id;
+  String? title;
+  String? description;
+  String? timestamp;
   
   PostData({
     this.name,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({Key key}) : super(key: key);
+  SignUpPage({Key? key}) : super(key: key);
   
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -12,10 +12,10 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool obscureText = true ;
-  TextEditingController _emailController,_passwordController,_nameController,_phoneController;
+  late TextEditingController _emailController,_passwordController,_nameController,_phoneController;
   GlobalKey<ScaffoldState> _key = GlobalKey();
   bool isLoading = false ;
-  String _nameError,
+  String? _nameError,
         _phoneError,
         _emailError,
         _passwordError;
@@ -153,21 +153,21 @@ class _SignUpPageState extends State<SignUpPage> {
                             setState(() {
                               isLoading = true ;
                             });
-                            http.get('https://flutter.smarttersstudio.com/test/signup.php?email=$email&password=$password&gender=1&name=$name&phone=$phone')
+                            http.get(Uri.parse('https://flutter.smarttersstudio.com/test/signup.php?email=$email&password=$password&gender=1&name=$name&phone=$phone'))
                               .then((response){
                               setState(() {
                                 isLoading = false ;
                               });
                                 var jsonResponse = json.decode(response.body);
                                 if(jsonResponse['result']){
-                                  _key.currentState.showSnackBar(
+                                  _key.currentState?.showSnackBar(
                                     SnackBar(
                                       content: Text('Registered Successfully'),
                                       backgroundColor: Colors.green,
                                     )
                                   );
                                 }else{
-                                  _key.currentState.showSnackBar(
+                                  _key.currentState?.showSnackBar(
                                     SnackBar(
                                       content: Text(jsonResponse['reason']),
                                       backgroundColor: Colors.red,

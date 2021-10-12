@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       home: FutureBuilder<bool>(
         builder: (context , snapshot){
           if(snapshot.hasData){
-            if(snapshot.data){
+            if(snapshot.data==true){
               return DashboardPage();
             }else{
               return LoginPage();
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
   
   Future<bool> isLoggedIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String user = preferences.getString("user");
+    String? user = preferences.getString("user");
     if(user==null)
       return false;
     else
