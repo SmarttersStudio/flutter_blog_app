@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
             future: getProfileFromServer(),
             builder:(context,snapshot){
               if(snapshot.hasData){
-                String data = snapshot.data;
+                String data = snapshot.data!;
                 var jsonData = json.decode(data);
                 String name = jsonData['name'];
                 String mobile = jsonData['phone'];
@@ -44,12 +44,12 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     Future<String> getProfileFromServer() async{
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String id = preferences.getString("user");
-      var response = await http.get('https://flutter.smarttersstudio.com/test/profile.php?id=$id');
+      String? id = preferences.getString("user");
+      var response = await http.get(Uri.parse('https://flutter.smarttersstudio.com/test/profile.php?id=$id'));
       return response.body;
     }
     
-    getProfile({String name,String mobile,String email,String gender}){
+    getProfile({required String name,required String mobile,required String email,required String gender}){
       return Container(
         width: MediaQuery.of(context).size.width,
         child: Column(

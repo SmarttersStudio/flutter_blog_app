@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-    LoginPage({Key key}) : super(key: key);
+    LoginPage({Key? key}) : super(key: key);
     
     @override
     _LoginPageState createState() => _LoginPageState();
@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
     bool obscureText = true ;
-    TextEditingController _emailController,_passwordController;
+    late TextEditingController _emailController,_passwordController;
     GlobalKey<ScaffoldState> _key = GlobalKey();
     bool isLoading = false ;
     @override
@@ -97,14 +97,14 @@ class _LoginPageState extends State<LoginPage> {
                               String password = _passwordController.text;
                               
                               if(email.isEmpty){
-                                _key.currentState.showSnackBar(
+                                _key.currentState?.showSnackBar(
                                   SnackBar(
                                     content: Text('Email is Empty'),
                                     backgroundColor: Colors.red,
                                   )
                                 );
                               }else if(password.isEmpty){
-                                _key.currentState.showSnackBar(
+                                _key.currentState?.showSnackBar(
                                   SnackBar(
                                     content: Text('Password is Empty'),
                                     backgroundColor: Colors.red,
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  http.get('https://flutter.smarttersstudio.com/test/login.php?user=$email&pass=$password')
+                                  http.get(Uri.parse('https://flutter.smarttersstudio.com/test/login.php?user=$email&pass=$password'))
                                   .then((response) async {
                                     setState(() {
                                       isLoading = false;
@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                     }else{
                                       String reason = jsonResult['reason'];
-                                      _key.currentState.showSnackBar(
+                                      _key.currentState?.showSnackBar(
                                         SnackBar(
                                           content:Text(reason) ,
                                           backgroundColor: Colors.red,
